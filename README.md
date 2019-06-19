@@ -15,4 +15,5 @@ Add the following to your `.bash_profile`, `.bashrc`, or wherever...
 python3 {PATH_TO_DIR}/darsky.py
 ```
 
-Powered by [DarkSky](https://darksky.net/poweredby/)
+## Attributions
+Powered by [DarkSky](https://darksky.net/poweredby/) and [IPinfo](https://ipinfo.io/)
