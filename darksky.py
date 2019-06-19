@@ -1,3 +1,6 @@
+# Uses the DarkSky API to print the weather
+# https://darksky.net/dev
+
 import requests
 from api_key import API_KEY
 
@@ -31,6 +34,8 @@ def pretty_summary():
     icon    = emojis.get(forecast["hourly"]["icon"], "🌈")
 
     weekly_sum = forecast["daily"]["summary"]
-    return icon + " " + summary + "\n" + weekly_sum
+    attribution = "Powered by DarkSky: https://darksky.net/poweredby/"
+    
+    return icon + " " + summary + "\n" + weekly_sum + "\n" + attribution
 
 print(pretty_summary())
