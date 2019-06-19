@@ -7,4 +7,4 @@ To use your API key, create `api_key.py` with a variable called `API_KEY`.
 echo "API_KEY = '{INSERT_KEY}'" > api_key.py
 ```
 
-Powered by [DarkSky](https://darksky.net)
+Powered by [DarkSky](https://darksky.net/poweredby/)
