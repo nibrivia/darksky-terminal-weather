@@ -33,9 +33,11 @@ def pretty_summary():
     summary = forecast["hourly"]["summary"]
     icon    = emojis.get(forecast["hourly"]["icon"], "🌈")
 
-    weekly_sum = forecast["daily"]["summary"]
+    daily_sum  = forecast["daily"]["summary"]
+    daily_icon = emojis.get(forecast["daily"]["icon"], "🌈")
+
     attribution = "Powered by DarkSky: https://darksky.net/poweredby/"
     
-    return icon + " " + summary + "\n" + weekly_sum + "\n" + attribution
+    return icon + "  " + summary + "\n" + daily_icon + "  " + daily_sum + "\n" + attribution
 
 print(pretty_summary())
