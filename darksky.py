@@ -31,8 +31,7 @@ def get_latlong():
         return resp.text.strip()
 
     resp = requests.get("http://ipinfo.io/loc")
-    #return resp.text.strip()
-    return "42.3649,-71.0987"
+    return resp.text.strip()
 
 def pretty_summary():
     forecast = get_forecast()
