@@ -71,7 +71,7 @@ def one_line():
     min_icon = emojis.get(forecast["minutely"]["icon"], "")
     sunset_time = datetime.fromtimestamp(forecast["daily"]["data"][0]["sunsetTime"])
 
-    oneline = "%s  %.1fC, %s. %s set" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
+    oneline = "%s  %.1fC, %s (%s)" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
 
     # Write to cache
     with open(".cached-oneline", "w") as f:
