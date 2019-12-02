@@ -33,6 +33,8 @@ def get_latlong():
     resp = requests.get("http://ipinfo.io/loc")
     return resp.text.strip()
 
+import json
+from datetime import datetime
 def pretty_summary():
     forecast = get_forecast()
 
@@ -46,5 +48,15 @@ def pretty_summary():
     
     return icon + "  " + summary + "\n" + daily_icon + "  " + daily_sum + "\n" + attribution
 
+def one_line():
+    forecast = get_forecast()
+    #print(json.dumps(forecast, indent = 2))
+
+    cur_temp = forecast["currently"]["temperature"]
+    min_desc = forecast["minutely"]["summary"]
+    min_icon = emojis.get(forecast["minutely"]["icon"], "")
+    sunset_time = datetime.fromtimestamp(forecast["daily"]["data"][0]["sunsetTime"])
+    return "%s  %.1fC, %s. %s set" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
+
 if __name__ == "__main__":
-    print(pretty_summary())
+    print(one_line())
