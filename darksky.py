@@ -48,7 +48,21 @@ def pretty_summary():
     
     return icon + "  " + summary + "\n" + daily_icon + "  " + daily_sum + "\n" + attribution
 
+import os
 def one_line():
+    # Try to find the cache
+    try:
+        mtime = os.path.getmtime(".cached-oneline")
+    except:
+        mtime = 0
+
+    # hit!
+    now_ts = datetime.now().timestamp()
+    if now_ts - mtime < 15*60:
+        with open(".cached-oneline") as f:
+            return f.readlines()[0]
+
+    # Get forecast
     forecast = get_forecast()
     #print(json.dumps(forecast, indent = 2))
 
@@ -56,7 +70,16 @@ def one_line():
     min_desc = forecast["minutely"]["summary"]
     min_icon = emojis.get(forecast["minutely"]["icon"], "")
     sunset_time = datetime.fromtimestamp(forecast["daily"]["data"][0]["sunsetTime"])
-    return "%s  %.1fC, %s. %s set" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
+
+    oneline = "%s  %.1fC, %s. %s set" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
+
+    # Write to cache
+    with open(".cached-oneline", "w") as f:
+        print(oneline, file=f)
+
+    # done
+    return oneline
+
 
 if __name__ == "__main__":
     print(one_line())
