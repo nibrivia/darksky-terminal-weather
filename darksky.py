@@ -51,30 +51,39 @@ def pretty_summary():
 import os
 def one_line():
     # Try to find the cache
+    fname = "/home/nibr/.cached-oneline"
     try:
-        mtime = os.path.getmtime(".cached-oneline")
+        mtime = os.path.getmtime(fname)
     except:
         mtime = 0
 
     # hit!
     now_ts = datetime.now().timestamp()
     if now_ts - mtime < 15*60:
-        with open(".cached-oneline") as f:
-            return f.readlines()[0]
+        try:
+            with open(fname) as f:
+                return f.readlines()[0]
+        except:
+            pass
 
     # Get forecast
     forecast = get_forecast()
-    #print(json.dumps(forecast, indent = 2))
+    print(json.dumps(forecast, indent = 2))
 
     cur_temp = forecast["currently"]["temperature"]
-    min_desc = forecast["minutely"]["summary"]
+    if "minutely" in forecast:
+        min_desc = forecast["minutely"]["summary"]
+    else:
+        min_desc = forecast["hourly"]["summary"]
+
     min_icon = emojis.get(forecast["minutely"]["icon"], "")
     sunset_time = datetime.fromtimestamp(forecast["daily"]["data"][0]["sunsetTime"])
+    sunrise_time = datetime.fromtimestamp(forecast["daily"]["data"][0]["sunriseTime"])
 
-    oneline = "%s  %.1fC, %s (%s)" % (min_icon, cur_temp, min_desc, sunset_time.strftime("%H:%M"))
+    oneline = "%.1fC  %s %s  ↑%s ↓%s" % (cur_temp, min_icon, min_desc, sunrise_time.strftime("%H:%M"), sunset_time.strftime("%H:%M"))
 
     # Write to cache
-    with open(".cached-oneline", "w") as f:
+    with open(fname, "w") as f:
         print(oneline, file=f)
 
     # done
